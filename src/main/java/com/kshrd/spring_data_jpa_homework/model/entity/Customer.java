@@ -22,7 +22,7 @@ public class Customer {
     @Column(columnDefinition = "TEXT")
     private String address;
 
-    private String phone_number;
+    private String phoneNumber;
 
     @OneToOne
     @MapsId

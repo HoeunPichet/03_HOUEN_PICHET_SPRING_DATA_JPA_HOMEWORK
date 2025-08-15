@@ -27,4 +27,9 @@ public class CustomerAccount {
 
     @OneToOne(mappedBy = "customerAccount", cascade = CascadeType.ALL, orphanRemoval = true)
     private Customer customer;
+
+    @PrePersist
+    private void onCreate() {
+        this.isActive = true;
+    }
 }

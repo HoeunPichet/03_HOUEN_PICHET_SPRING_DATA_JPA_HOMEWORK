@@ -26,5 +26,5 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    private Integer quantity;
+    private Long quantity;
 }
