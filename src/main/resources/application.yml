@@ -7,6 +7,13 @@ spring:
     username: postgres
     password: 12562903
     driver-class-name: org.postgresql.Driver
+#    hikari:
+#      maximum-pool-size: 20
+#      minimum-idle: 5
+#      idle-timeout: 30000
+#      max-lifetime: 1200000
+#      auto-commit: true
+#      pool-name: HikariPool-CP
 
   jpa:
     hibernate:

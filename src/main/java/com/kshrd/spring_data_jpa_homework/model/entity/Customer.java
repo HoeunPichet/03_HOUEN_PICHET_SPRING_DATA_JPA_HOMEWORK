@@ -3,6 +3,8 @@ package com.kshrd.spring_data_jpa_homework.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -13,8 +15,6 @@ import lombok.*;
 @Table(name = "customers")
 public class Customer {
     @Id
-    @OneToOne
-    @Column(name = "customer_id", nullable = false, updatable = false)
     private Long customerId;
 
     private String name;
@@ -24,10 +24,11 @@ public class Customer {
 
     private String phone_number;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
+    @OneToOne
+    @MapsId
+    @PrimaryKeyJoinColumn(name = "customer_id")
     private CustomerAccount customerAccount;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private Order order;
+    private List<Order> order;
 }

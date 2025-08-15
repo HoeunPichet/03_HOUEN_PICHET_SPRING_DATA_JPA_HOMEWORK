@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -15,7 +16,6 @@ import java.math.BigDecimal;
 @Table(name = "products")
 public class Product {
     @Id
-    @OneToOne
     @Column(name = "product_id", nullable = false, updatable = false)
     private Long productId;
 
@@ -27,4 +27,7 @@ public class Product {
 
     @Column(columnDefinition = "TEXT")
     private String description;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<OrderItem> orderItems;
 }

@@ -25,6 +25,6 @@ public class CustomerAccount {
 
     private Boolean isActive;
 
-    @OneToOne(mappedBy = "customer_account", cascade = CascadeType.ALL, orphanRemoval = true)
-    Customer customer;
+    @OneToOne(mappedBy = "customerAccount", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Customer customer;
 }
