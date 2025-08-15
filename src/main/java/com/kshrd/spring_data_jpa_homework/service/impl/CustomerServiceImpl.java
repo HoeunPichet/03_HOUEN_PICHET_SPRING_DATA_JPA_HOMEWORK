@@ -4,14 +4,17 @@ import com.kshrd.spring_data_jpa_homework.exception.AppNotFoundException;
 import com.kshrd.spring_data_jpa_homework.model.dto.CustomerDto;
 import com.kshrd.spring_data_jpa_homework.model.entity.Customer;
 import com.kshrd.spring_data_jpa_homework.model.entity.CustomerAccount;
+import com.kshrd.spring_data_jpa_homework.model.enums.CustomerProperty;
 import com.kshrd.spring_data_jpa_homework.model.request.CustomerRequest;
+import com.kshrd.spring_data_jpa_homework.model.response.PaginatedResponse;
 import com.kshrd.spring_data_jpa_homework.repository.CustomerAccountRepository;
 import com.kshrd.spring_data_jpa_homework.service.CustomerService;
+import com.kshrd.spring_data_jpa_homework.utils.Pagination;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -19,8 +22,17 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerAccountRepository customerAccountRepository;
 
     @Override
-    public List<CustomerDto> getAllCustomers() {
-        return List.of();
+    public PaginatedResponse<List<CustomerDto>> getAllCustomers(Integer page, Integer size, CustomerProperty customerProperty, Sort.Direction direction) {
+        Pagination<CustomerAccount, CustomerAccountRepository> pagination = new Pagination<>(customerAccountRepository);
+
+        PaginatedResponse<List<CustomerAccount>> response =
+                pagination.getAllWithPagination(page, size, customerProperty.getFieldName(), direction);
+
+        List<CustomerDto> customerDtos = response.getItems().stream()
+                .map(cus -> new CustomerDto().toResponse(cus))
+                .toList();
+
+        return new PaginatedResponse<>(customerDtos, response.getPagination());
     }
 
     @Override

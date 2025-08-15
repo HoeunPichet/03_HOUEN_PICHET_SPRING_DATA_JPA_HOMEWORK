@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 public class PaginationDto {
     private Long totalElements;
-    private Long currentPage;
-    private Long pageSize;
-    private Long totalPages;
+    private Integer currentPage;
+    private Integer pageSize;
+    private Integer totalPages;
 }

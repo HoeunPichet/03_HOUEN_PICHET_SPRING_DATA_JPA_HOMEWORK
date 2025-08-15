@@ -1,8 +1,10 @@
 package com.kshrd.spring_data_jpa_homework.controller;
 
 import com.kshrd.spring_data_jpa_homework.model.dto.CustomerDto;
+import com.kshrd.spring_data_jpa_homework.model.enums.CustomerProperty;
 import com.kshrd.spring_data_jpa_homework.model.request.CustomerRequest;
 import com.kshrd.spring_data_jpa_homework.model.response.ApiResponse;
+import com.kshrd.spring_data_jpa_homework.model.response.PaginatedResponse;
 import com.kshrd.spring_data_jpa_homework.service.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -13,6 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,14 +34,14 @@ public class CustomerController {
             description = "Retrieves all customers in a paginated format. You can specify the page number, page size, sorting property, and sort direction."
     )
     @GetMapping
-    public ResponseEntity<ApiResponse<List<CustomerDto>>> getAllCustomers(
-            @Parameter(description = "Page number (starting from 1)", required = true)
+    public ResponseEntity<ApiResponse<PaginatedResponse<List<CustomerDto>>>> getAllCustomers(
             @RequestParam(defaultValue = "1") @Valid @Min(value = 1, message = "Page must be greater than 0") Integer page,
-            @Parameter(description = "Number of items per page", required = true)
-            @RequestParam(defaultValue = "10") @Valid @Min(value = 1, message = "Size must be greater than 0") Integer size
-    ) {
-        List<CustomerDto> customers = customerService.getAllCustomers();
-        ApiResponse<List<CustomerDto>> response = ApiResponse.<List<CustomerDto>>builder()
+            @RequestParam(defaultValue = "10") @Valid @Min(value = 1, message = "Size must be greater than 0") Integer size,
+            @RequestParam CustomerProperty customerProperty,
+            @RequestParam Sort.Direction direction
+            ) {
+        PaginatedResponse<List<CustomerDto>> customers = customerService.getAllCustomers(page, size, customerProperty, direction);
+        ApiResponse<PaginatedResponse<List<CustomerDto>>> response = ApiResponse.<PaginatedResponse<List<CustomerDto>>>builder()
                 .success(true)
                 .message("Get all customers successfully!")
                 .payload(customers)
