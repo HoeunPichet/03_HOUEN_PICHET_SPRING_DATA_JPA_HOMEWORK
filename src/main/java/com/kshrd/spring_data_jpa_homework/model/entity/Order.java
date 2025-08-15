@@ -18,6 +18,7 @@ import java.util.List;
 @Table(name = "orders")
 public class Order {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id", nullable = false, updatable = false)
     private Long orderId;
 
