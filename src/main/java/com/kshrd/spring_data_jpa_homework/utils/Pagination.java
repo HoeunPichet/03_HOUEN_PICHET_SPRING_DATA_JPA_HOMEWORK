@@ -10,24 +10,34 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.function.Function;
 
 
 @RequiredArgsConstructor
 public class Pagination<T, R extends JpaRepository<T, ?>> {
     private final R repo;
 
-    public PaginatedResponse<List<T>> getAllWithPagination(Integer page, Integer size, String field, Sort.Direction direction) {
+    public <D> PaginatedResponse<List<D>> getPaginatedContent(
+            Integer page,
+            Integer size,
+            String field,
+            Sort.Direction direction,
+            Function<T, D> mapper
+    ) {
+
         Sort sort = Sort.by(new Sort.Order(direction, field).ignoreCase());
-        Pageable pageable = PageRequest.of(page-1, size, sort);
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
         Page<T> pages = repo.findAll(pageable);
-        List<T> payload = pages.getContent();
-        PaginationDto paginationDto = PaginationDto.builder()
+
+        List<D> dtos = pages.getContent().stream().map(mapper).toList();
+
+        PaginationDto pagination = PaginationDto.builder()
                 .totalElements(pages.getTotalElements())
                 .pageSize(pages.getSize())
                 .currentPage(pages.getNumber() + 1)
                 .totalPages(pages.getTotalPages())
                 .build();
 
-        return new PaginatedResponse<>(payload, paginationDto);
+        return new PaginatedResponse<>(dtos, pagination);
     }
 }

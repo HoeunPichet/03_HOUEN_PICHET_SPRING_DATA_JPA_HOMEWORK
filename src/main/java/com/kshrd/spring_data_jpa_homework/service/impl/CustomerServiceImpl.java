@@ -23,23 +23,20 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public PaginatedResponse<List<CustomerDto>> getAllCustomers(Integer page, Integer size, CustomerProperty customerProperty, Sort.Direction direction) {
-        Pagination<CustomerAccount, CustomerAccountRepository> pagination = new Pagination<>(customerAccountRepository);
-
-        PaginatedResponse<List<CustomerAccount>> response =
-                pagination.getAllWithPagination(page, size, customerProperty.getFieldName(), direction);
-
-        List<CustomerDto> customerDtos = response.getItems().stream()
-                .map(cus -> new CustomerDto().toResponse(cus))
-                .toList();
-
-        return new PaginatedResponse<>(customerDtos, response.getPagination());
+        return new Pagination<>(customerAccountRepository).getPaginatedContent(
+                page,
+                size,
+                customerProperty.getFieldName(),
+                direction,
+                CustomerDto::toResponse
+        );
     }
 
     @Override
     public CustomerDto getCustomerById(Long id) {
         CustomerAccount customerAccount = customerAccountRepository.findById(id).orElseThrow(() -> new AppNotFoundException("Customer not found"));
 
-        return new CustomerDto().toResponse(customerAccount);
+        return CustomerDto.toResponse(customerAccount);
     }
 
     @Override
@@ -59,7 +56,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         customerAccount.setCustomer(customer);
 
-        return new CustomerDto().toResponse(customerAccountRepository.save(customerAccount));
+        return CustomerDto.toResponse(customerAccountRepository.save(customerAccount));
     }
 
     @Override
@@ -79,7 +76,7 @@ public class CustomerServiceImpl implements CustomerService {
         customerAccount.getCustomer().setAddress(request.getAddress());
         customerAccount.getCustomer().setPhoneNumber(request.getPhoneNumber());
 
-        return new CustomerDto().toResponse(customerAccountRepository.save(customerAccount));
+        return CustomerDto.toResponse(customerAccountRepository.save(customerAccount));
     }
 
     @Override

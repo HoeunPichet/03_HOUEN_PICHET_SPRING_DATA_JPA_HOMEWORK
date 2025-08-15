@@ -17,7 +17,7 @@ public class CustomerDto {
     private String password;
     private Boolean isActive;
 
-    public CustomerDto toResponse(CustomerAccount customerAccount) {
+    public static CustomerDto toResponse(CustomerAccount customerAccount) {
         return CustomerDto.builder()
                 .customerId(customerAccount.getCustomerId())
                 .name(customerAccount.getCustomer().getName())
