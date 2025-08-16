@@ -3,6 +3,7 @@ package com.kshrd.spring_data_jpa_homework.controller;
 
 import com.kshrd.spring_data_jpa_homework.model.dto.OrderDto;
 import com.kshrd.spring_data_jpa_homework.model.enums.OrderProperty;
+import com.kshrd.spring_data_jpa_homework.model.enums.OrderStatus;
 import com.kshrd.spring_data_jpa_homework.model.request.OrderRequest;
 import com.kshrd.spring_data_jpa_homework.model.response.ApiResponse;
 import com.kshrd.spring_data_jpa_homework.model.response.PaginatedResponse;
@@ -101,11 +102,11 @@ public class OrderController {
                     (e.g., <code>PENDING</code>, <code>PAID</code>, <code>SHIPPED</code>, <code>CANCELLED</code>).
                     """
     )
-    public ResponseEntity<ApiResponse<OrderDto>> updateOrderStatus(@PathVariable("order-id") Long id, @RequestParam OrderProperty orderProperty) {
-        OrderDto order = orderService.updateOrderStatus(id, orderProperty);
+    public ResponseEntity<ApiResponse<OrderDto>> updateOrderStatus(@PathVariable("order-id") Long id, @RequestParam OrderStatus orderStatus) {
+        OrderDto order = orderService.updateOrderStatus(id, orderStatus);
         ApiResponse<OrderDto> response = ApiResponse.<OrderDto>builder()
                 .success(true)
-                .message("Order with ID " + id + " has been updated successfully!")
+                .message("Order status has been updated to " + orderStatus + " successfully!")
                 .status(HttpStatus.OK)
                 .payload(order)
                 .build();

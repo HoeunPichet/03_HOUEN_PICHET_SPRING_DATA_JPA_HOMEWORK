@@ -2,6 +2,7 @@ package com.kshrd.spring_data_jpa_homework.service;
 
 import com.kshrd.spring_data_jpa_homework.model.dto.OrderDto;
 import com.kshrd.spring_data_jpa_homework.model.enums.OrderProperty;
+import com.kshrd.spring_data_jpa_homework.model.enums.OrderStatus;
 import com.kshrd.spring_data_jpa_homework.model.request.OrderRequest;
 import com.kshrd.spring_data_jpa_homework.model.response.PaginatedResponse;
 import jakarta.validation.Valid;
@@ -17,7 +18,7 @@ public interface OrderService {
 
     OrderDto createOrder(Long id, @Valid List<OrderRequest> request);
 
-    OrderDto updateOrderStatus(Long id, OrderProperty orderProperty);
+    OrderDto updateOrderStatus(Long id, OrderStatus orderStatus);
 
     void deleteOrder(Long id);
 }

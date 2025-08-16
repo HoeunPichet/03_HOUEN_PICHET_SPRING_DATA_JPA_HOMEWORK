@@ -20,6 +20,6 @@ public class OrderRequest {
     @Schema(example = "1")
     @NotNull(message = "Quantity is required")
     @Min(value = 1L, message = "Quantity must be at least 1")
-    @Max(value = 9999999999L, message = "Quantity must not exceed 9999999999")
+    @Max(value = 99999999L, message = "Quantity must have at most 8 digits")
     private Long quantity;
 }

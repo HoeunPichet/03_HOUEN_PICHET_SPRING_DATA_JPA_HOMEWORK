@@ -9,6 +9,7 @@ import com.kshrd.spring_data_jpa_homework.model.entity.Order;
 import com.kshrd.spring_data_jpa_homework.model.entity.OrderItem;
 import com.kshrd.spring_data_jpa_homework.model.entity.Product;
 import com.kshrd.spring_data_jpa_homework.model.enums.OrderProperty;
+import com.kshrd.spring_data_jpa_homework.model.enums.OrderStatus;
 import com.kshrd.spring_data_jpa_homework.model.request.OrderRequest;
 import com.kshrd.spring_data_jpa_homework.model.response.PaginatedResponse;
 import com.kshrd.spring_data_jpa_homework.repository.CustomerAccountRepository;
@@ -61,7 +62,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto getOrderById(Long id) {
-        Order order = orderRepository.findById(id).orElseThrow(() -> new AppNotFoundException("Order not found"));
+        Order order = orderRepository.findById(id).orElseThrow(() -> new AppNotFoundException("Order ID " + id + " not found"));
         CustomerAccount customerAccount = customerAccountRepository.findById(order.getCustomer().getCustomerId()).orElseThrow(() -> new AppNotFoundException("Customer not found"));
         List<Product> products = orderItemRepository.findProductsByOrderId(id);
 
@@ -123,8 +124,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto updateOrderStatus(Long id, OrderProperty orderProperty) {
-        return null;
+    public OrderDto updateOrderStatus(Long id, OrderStatus orderStatus) {
+        Order order = orderRepository.findById(id).orElseThrow(() -> new AppNotFoundException("Order ID " + id + " not found"));
+        order.setStatus(orderStatus);
+        orderRepository.save(order);
+
+        return this.getOrderById(id);
     }
 
     @Override

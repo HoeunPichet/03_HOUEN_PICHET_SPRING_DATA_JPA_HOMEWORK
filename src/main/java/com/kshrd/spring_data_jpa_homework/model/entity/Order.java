@@ -24,7 +24,7 @@ public class Order {
 
     private LocalDateTime orderDate;
 
-    @Column(precision = 10, scale = 2)
+    @Column(precision = 20, scale = 2)
     private BigDecimal totalAmount;
 
     @Enumerated(EnumType.STRING)
