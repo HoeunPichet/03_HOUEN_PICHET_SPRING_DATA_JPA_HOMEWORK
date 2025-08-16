@@ -5,10 +5,10 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum ProductProperty {
-    ID("productId"),
-    NAME("name"),
-    UNIT_PRICE("unitPrice");
+public enum OrderProperty {
+    ID("orderId"),
+    ORDER_DATE("orderDate"),
+    TOTAL_AMOUNT("totalAmount");
 
     private final String fieldName;
 }

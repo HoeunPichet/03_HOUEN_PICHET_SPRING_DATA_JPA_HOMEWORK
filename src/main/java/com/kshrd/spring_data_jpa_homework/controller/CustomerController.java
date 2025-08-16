@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/customer")
+@RequestMapping("/api/v1/customers")
 @Tag(name = "Customer")
 public class CustomerController {
     private final CustomerService customerService;
@@ -68,7 +68,7 @@ public class CustomerController {
             summary = "Create a new customer",
             description = """
             Accepts a valid
-            <code style="color: purple; font-weight: bold;">CustomerRequest</code>
+            <code>CustomerRequest</code>
             object to create a new customer record.
             """
     )

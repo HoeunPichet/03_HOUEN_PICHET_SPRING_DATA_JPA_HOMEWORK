@@ -26,5 +26,6 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
 
+    @Column(precision = 10)
     private Long quantity;
 }

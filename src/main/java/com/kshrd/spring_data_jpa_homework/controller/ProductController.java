@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/product")
+@RequestMapping("/api/v1/products")
 @Tag(name = "Product")
 public class ProductController {
     private final ProductService productService;
@@ -68,7 +68,7 @@ public class ProductController {
             summary = "Create a new product",
             description = """
             Accepts a valid
-            <code style="color: purple; font-weight: bold;">ProductRequest</code>
+            <code>ProductRequest</code>
             object to create a new product record.
             """
     )
