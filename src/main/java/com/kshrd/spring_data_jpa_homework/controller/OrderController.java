@@ -80,7 +80,7 @@ public class OrderController {
             """
     )
     @PostMapping("/customers/{customer-id}")
-    public ResponseEntity<ApiResponse<OrderDto>> createOrder(@PathVariable("customer-id") Long id, @RequestBody @Valid OrderRequest request) {
+    public ResponseEntity<ApiResponse<OrderDto>> createOrder(@PathVariable("customer-id") Long id, @RequestBody @Valid List<OrderRequest> request) {
         OrderDto order = orderService.createOrder(id, request);
         ApiResponse<OrderDto> response = ApiResponse.<OrderDto>builder()
                 .success(true)

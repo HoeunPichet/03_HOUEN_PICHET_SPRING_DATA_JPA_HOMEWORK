@@ -36,4 +36,10 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
+
+    @PrePersist
+    private void onCreate() {
+        this.orderDate = LocalDateTime.now();
+        this.status = OrderStatus.PENDING;
+    }
 }

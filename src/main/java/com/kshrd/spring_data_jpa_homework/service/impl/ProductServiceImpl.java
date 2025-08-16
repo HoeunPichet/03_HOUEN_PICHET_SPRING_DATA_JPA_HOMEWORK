@@ -2,15 +2,8 @@ package com.kshrd.spring_data_jpa_homework.service.impl;
 
 import com.kshrd.spring_data_jpa_homework.exception.AppNotFoundException;
 import com.kshrd.spring_data_jpa_homework.model.dto.ProductDto;
-import com.kshrd.spring_data_jpa_homework.model.dto.ProductDto;
-import com.kshrd.spring_data_jpa_homework.model.dto.ProductDto;
-import com.kshrd.spring_data_jpa_homework.model.entity.Product;
-import com.kshrd.spring_data_jpa_homework.model.entity.Product;
-import com.kshrd.spring_data_jpa_homework.model.entity.Product;
 import com.kshrd.spring_data_jpa_homework.model.entity.Product;
 import com.kshrd.spring_data_jpa_homework.model.enums.ProductProperty;
-import com.kshrd.spring_data_jpa_homework.model.enums.ProductProperty;
-import com.kshrd.spring_data_jpa_homework.model.request.ProductRequest;
 import com.kshrd.spring_data_jpa_homework.model.request.ProductRequest;
 import com.kshrd.spring_data_jpa_homework.model.response.PaginatedResponse;
 import com.kshrd.spring_data_jpa_homework.repository.ProductRepository;

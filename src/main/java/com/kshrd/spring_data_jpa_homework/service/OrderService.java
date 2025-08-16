@@ -15,7 +15,7 @@ public interface OrderService {
 
     OrderDto getOrderById(Long id);
 
-    OrderDto createOrder(Long id, @Valid OrderRequest request);
+    OrderDto createOrder(Long id, @Valid List<OrderRequest> request);
 
     OrderDto updateOrderStatus(Long id, OrderProperty orderProperty);
 

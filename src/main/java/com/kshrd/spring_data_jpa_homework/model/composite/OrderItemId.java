@@ -9,6 +9,7 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Embeddable
 @EqualsAndHashCode
 public class OrderItemId implements Serializable {
