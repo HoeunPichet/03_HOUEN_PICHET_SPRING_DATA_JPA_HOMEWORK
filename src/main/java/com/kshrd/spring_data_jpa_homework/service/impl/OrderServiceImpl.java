@@ -41,7 +41,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto getOrderById(Long id) {
-        return null;
+        Order order = orderRepository.findById(id).orElseThrow(() -> new AppNotFoundException("Order not found"));
+        CustomerAccount customerAccount = customerAccountRepository.findById(order.getCustomer().getCustomerId()).orElseThrow(() -> new AppNotFoundException("Customer not found"));
+        List<Product> products = orderItemRepository.findProductsByOrderId(id);
+
+        return OrderDto.toResponse(order, customerAccount, products);
     }
 
     @Override
