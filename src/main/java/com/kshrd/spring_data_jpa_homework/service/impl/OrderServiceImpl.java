@@ -3,6 +3,7 @@ package com.kshrd.spring_data_jpa_homework.service.impl;
 import com.kshrd.spring_data_jpa_homework.exception.AppNotFoundException;
 import com.kshrd.spring_data_jpa_homework.model.composite.OrderItemId;
 import com.kshrd.spring_data_jpa_homework.model.dto.OrderDto;
+import com.kshrd.spring_data_jpa_homework.model.dto.PaginationDto;
 import com.kshrd.spring_data_jpa_homework.model.entity.CustomerAccount;
 import com.kshrd.spring_data_jpa_homework.model.entity.Order;
 import com.kshrd.spring_data_jpa_homework.model.entity.OrderItem;
@@ -15,7 +16,11 @@ import com.kshrd.spring_data_jpa_homework.repository.OrderItemRepository;
 import com.kshrd.spring_data_jpa_homework.repository.OrderRepository;
 import com.kshrd.spring_data_jpa_homework.repository.ProductRepository;
 import com.kshrd.spring_data_jpa_homework.service.OrderService;
+import com.kshrd.spring_data_jpa_homework.utils.Pagination;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +41,22 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public PaginatedResponse<List<OrderDto>> getAllOrders(Long id, Integer page, Integer size, OrderProperty orderProperty, Sort.Direction direction) {
-        return null;
+        Sort sort = Sort.by(new Sort.Order(direction, orderProperty.getFieldName()).ignoreCase());
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
+        Page<Order> orderPage = orderRepository.findByCustomer_CustomerId(id, pageable);
+
+        List<OrderDto> orderDtos = orderPage.getContent().stream()
+                .map(order -> OrderDto.toResponse(order, order.getCustomer().getCustomerAccount(), orderItemRepository.findProductsByOrderId(order.getOrderId())))
+                .toList();
+
+        PaginationDto pagination = PaginationDto.builder()
+                .totalElements(orderPage.getTotalElements())
+                .pageSize(orderPage.getSize())
+                .currentPage(orderPage.getNumber() + 1)
+                .totalPages(orderPage.getTotalPages())
+                .build();
+
+        return new PaginatedResponse<>(orderDtos, pagination);
     }
 
     @Override
