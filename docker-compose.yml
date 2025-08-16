@@ -1,0 +1,27 @@
+services:
+  # PostgreSQL for DB
+  db:
+    image: postgres
+    container_name: postgres-homework
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  # Spring Boot API
+  api:
+    build: .
+    container_name: spring-api-homework
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 12345
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - db
+    restart: unless-stopped
